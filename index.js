@@ -36,8 +36,13 @@ app.use('/vivo/logout', (req, res) => {
   req.session.destroy();
   proxy.web(req, res, { target: `http://vivo:8080/vivo/logout` });
 });
-app.use(/.*/, (req, res) => {
-  proxy.web(req, res, { target: `http://vivo:8080${req.originalUrl}` });
+// app.use(/.*/, (req, res) => {
+//   proxy.web(req, res, { target: `http://discovery-api:9000${req.originalUrl}` });
+// });
+
+// route all /api requests to discovery api
+app.use(/^\/api(\/.*|$)/, (req, res) => {
+  proxy.web(req, res, { target: `http://discovery-api:9000${req.originalUrl}` });
 });
 
 app.listen(8080, () => {
