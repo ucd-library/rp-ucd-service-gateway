@@ -44,6 +44,9 @@ app.use('/vivo/logout', (req, res) => {
 app.use(/^\/api(\/.*|$)/, (req, res) => {
   proxy.web(req, res, { target: `http://discovery-api:9000${req.originalUrl}` });
 });
+app.use(/^\/.*/, (req, res) => {
+  proxy.web(req, res, { target: `http://client:3000${req.originalUrl}` });
+});
 
 app.listen(8080, () => {
   console.log('server ready on port 8080');
